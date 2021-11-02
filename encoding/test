@@ -1,0 +1,1 @@
+car(X,Y,W,H,T,ID) :- car(_,Y,W,H,T,ID), X=1. 

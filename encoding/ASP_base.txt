@@ -1,0 +1,30 @@
+% Definiamo la matrice
+matrix(0..5,0..5).
+
+% Definiamo gli ID dei veicoli
+type("PLayer"). type("CarH"). type("CarV"). type("CamionH"). type("CamionV").
+
+% Identifichiamo i vari veicoli posti nelle celle della matrice tramite il seguente atomo:
+%   car(Id, X, Y, W, H, T)
+%   Id -> id del veicolo
+%   X -> coordinata riga
+%   Y -> coordinata colonna
+%   W -> larghezza veicolo
+%   H -> altezza veicolo
+%   T -> tipo di veicolo
+
+% estraiamo i dati dei veicoli 
+id(ID) :- car(ID,_,_,_,_,_).
+
+% GUESS
+% inserisci o non inserisci un veicolo in quella cella
+carAt(Id, X, Y, T) | noCarAt(Id, X, Y, T) :- id(Id), matrix(X,Y), type(T).
+
+% CHECK
+% non è possibile che una cella sia occupata contemporaneamente da due veicoli
+:- carAt(Id,X,Y,_), carAt(Id1,X,Y,_), Id != Id1. 
+
+% non è possibile che un veicolo occupi due righe e due colonne (escludiamo il posizionamento a L)
+
+
+% non è possibile che un veicolo occupi la stessa riga del PLAYER -> per vincere bisogna liberare la riga del player
