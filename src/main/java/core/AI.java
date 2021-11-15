@@ -1,7 +1,10 @@
 package core;
 
+import java.util.ArrayList;
+
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
+import it.unical.mat.embasp.base.OptionDescriptor;
 import it.unical.mat.embasp.base.Output;
 import it.unical.mat.embasp.languages.IllegalAnnotationException;
 import it.unical.mat.embasp.languages.ObjectNotValidException;
@@ -15,6 +18,7 @@ import it.unical.mat.embasp.specializations.dlv2.desktop.DLV2DesktopService;
 import manager.Manager;
 import model.Car;
 import model.Matrix;
+import model.Move;
 
 
 public class AI {
@@ -25,8 +29,11 @@ public class AI {
 	InputProgram program;
 	InputProgram facts;
 	
+	ArrayList<Move> objectsUpdate;	// array temporaneo per l'aggiornamento del 'move' degli oggetti
+	
 	public AI() {
 		this.init();
+		objectsUpdate = new ArrayList<Move>();
 	}
 	
 	private void init() {
@@ -40,13 +47,20 @@ public class AI {
 		facts = new ASPInputProgram();
 		try {
 			ASPMapper.getInstance().registerClass(Car.class);
+			ASPMapper.getInstance().registerClass(Move.class);
 		}catch (ObjectNotValidException | IllegalAnnotationException e1) {
 		      e1.printStackTrace();
 	    }
 		
 		
-		program.addFilesPath("encoding/test");
-	    
+		//program.addFilesPath("encoding/test");
+		//handler.addProgram(program);
+		
+		
+		//OptionDescriptor option= new OptionDescriptor("--no-facts");
+		
+		//handler.addOption(option);
+		
 	
 		// aggiungere uno o pi� oggetti per formare il programma logico:
 			// tramite file:
@@ -74,21 +88,12 @@ public class AI {
 	
 	public boolean generateFacts() {
 		
-		int rows = Matrix.rows;
-		int cols = Matrix.cols;
-		
-		
-		int[][] matrix;
-		String[][] typeBlockMatrix;
-		int[][] idSingleObject;
-		
-		matrix = Matrix.getMatrix();
-		typeBlockMatrix = Matrix.getTypeBlockMatrix();
-		idSingleObject = Matrix.getIdSingleObject();
-		
-		for(int i = 0; i < rows; i++) {
-			for(int j = 0; j < cols; j++) {
-				
+		for(Car car: Manager.object ) {
+			try {
+				facts.addObjectInput(car);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -100,11 +105,14 @@ public class AI {
 		
 		System.out.println("PLAYAI");
 		
+		generateFacts();
+		
+		program.addFilesPath("encoding/test");
 		handler.addProgram(program);
 		handler.addProgram(facts);
 		
 		System.out.println("facts: " + facts.getPrograms());
-		System.out.println("program: " + program.getPrograms());
+		System.out.println("program: " + program.getStringOfFilesPaths());
 		
 		Output output = handler.startSync();
 		
@@ -117,22 +125,23 @@ public class AI {
 			System.out.println(a.toString());
 		}
 		*/
-		// per convertire gli answersets generati in oggetti
 		
+		facts.clearAll();	// rimuoviamo i fatti già analizzati (provvisorio)
+		program.clearAll();
+		
+		
+		// per convertire gli answersets generati in oggetti
 		for(AnswerSet a: answersets.getAnswersets()) {
-			System.out.println("Sono nel ciclo");
+			System.out.println("Sono nel ciclo dell'AI");
 			System.out.println(a.toString());
 		      try { 
 		        for(Object obj: a.getAtoms()){
-					if(!(obj instanceof Car))
+					if(!(obj instanceof Move))
 						continue;
 					
-					Car car = (Car) obj;
+					Move car = (Move) obj;
 					
-					System.out.println("Sono il risultato dell'AI:  TIPO: " + car.getType() + " ID: " + car.getId()
-					+ " X: " + car.getX()+ " Y: " + car.getY());
-					
-					Manager.updateCar(car);
+					objectsUpdate.add(car);
 
 				}
 			} catch(Exception e) {
@@ -140,29 +149,105 @@ public class AI {
 			}
 		}
 		
+		init();
+		
+		if(objectsUpdate.size() != 0)
+			tickUpdateRenderObject(objectsUpdate);
+		
+		
+		objectsUpdate.clear();
+		
 		next();
 	}
 	
 	
 	public void next() {
 		
+		System.out.println("Altro giro");
+		
 		if(Matrix.isWin()) {
 			System.out.println("Vittoria! L'AI ha vinto la sfida");
 			return;
 		}
 		
+		
 		try {
-			Thread.sleep(500);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		program.clearAll();
-		facts.clearAll();
+		
+		
 		
 		playAI();
 	}
+	
+	
+	public void tickUpdateRenderObject(ArrayList<Move> cars) {
+		
+		int countCycles = 0;
+		
+		while(cars.size() != 0) {
+		
+			System.out.println("Sono nel while, ciclo: " + countCycles +"   cars.size(): " + cars.size());
+			
+			for(Move car: cars) {
+				
+				Car tempCar = new Car(car.getX(), car.getY(), car.getWidth(), car.getHeight(), car.getType().substring(1, car.getType().length()-1), car.getId()-1);
+				System.out.println("AI.tickUpdateRenderObject(): new Car("+ tempCar.getX() + ", " + tempCar.getY() + ", " + tempCar.getWidth() + ", " + tempCar.getHeight() + ", " + tempCar.getType() + ", " + tempCar.getId() + ")");
+				try {
+					Thread.sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.println("");
+				System.out.println("AI.tickUpdateRenderObject(" + car.getType().substring(1, car.getType().length()-1)  + ") ID: " + car.getId()
+				+ " X: " + car.getX()+ " Y: " + car.getY());
+				
+				// se l'aggiornamento di car va a buon fine, rimuovi l'oggetto dall'array, poichè aggiornato 
+				if(Manager.updateCar(tempCar)) {
+					cars.remove(car);
+					break;
+				}
+			}
+			
+			countCycles++;
+		}
+			
+	}
+	/*
+	public static boolean isFree(Car car) {
+			
+			int x = car.getX();
+			int y = car.getY();
+			int width = car.getWidth();
+			int height = car.getHeight();
+			
+			System.out.println("Siamo in isFree: ");
+			System.out.println("X: " + x + "  Y: " + y);
+			System.out.println("Width: " + width + " Height: " + height);
+			
+			
+			if( (x + width > cols || y + height > rows)) {
+				System.out.println("Celle X: " + x + " Y: " + y + " già occupate, scegliere altre celle");
+				return false;
+			}
+			
+			for(int i = y; i < y + height; i++) 
+				for(int j = x; j < x + width; j++) {
+					if(matrix[i][j] != 0) {
+						System.out.println("isNotFree:  matrix[" + i + "][" + j + "]");
+						return false;
+					}
+				}
+			
+			return true;
+		}
+	*/
 
 }
 

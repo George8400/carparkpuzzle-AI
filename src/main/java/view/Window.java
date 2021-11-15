@@ -26,13 +26,13 @@ public class Window extends JFrame implements KeyListener{
 		
 		this.setTitle("Car Puzzle Game AI");
 		this.setLayout(new BorderLayout());
-		this.setPreferredSize(new Dimension(1280, 720));
+		this.setPreferredSize(new Dimension(1280, 780));
 		
 		this.getContentPane().add(sidebar, BorderLayout.WEST);
 		this.getContentPane().add(mainpanel, BorderLayout.EAST);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setUndecorated(true);
+		//this.setUndecorated(true);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

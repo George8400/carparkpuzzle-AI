@@ -33,36 +33,37 @@ public class Matrix {
 		if(instance == null) {
 			instance = new Matrix();
 			Matrix.manager = manager;
-			manager.createPlayer();
+			manager.level1();
 			numberObjects = Manager.object.size();
 		}
 		return instance;
 	}
 	
-	public static boolean isFree(Car car) {
+	public static synchronized boolean isFree(Car car) {
 		
 		int x = car.getX();
 		int y = car.getY();
 		int width = car.getWidth();
 		int height = car.getHeight();
 		
-		System.out.println("Siamo in isFree: ");
-		System.out.println("X: " + x + "  Y: " + y);
-		System.out.println("Width: " + width + " Height: " + height);
+		// System.out.println("Siamo in isFree: ");
+		// System.out.println("X: " + x + "  Y: " + y);
+		// System.out.println("Width: " + width + " Height: " + height);
 		
 		
 		if( (x + width > cols || y + height > rows)) {
-			System.out.println("Celle X: " + x + " Y: " + y + " già occupate, scegliere altre celle");
+			System.out.println("Celle X: " + x + " Y: " + y + " si sta sforando la matrice");
 			return false;
 		}
 		
 		for(int i = y; i < y + height; i++) 
 			for(int j = x; j < x + width; j++) {
 				if(matrix[i][j] != 0) {
-					System.out.println("isNotFree:  matrix[" + i + "][" + j + "]");
+					System.out.println("Matrix.isFree(" + car.getType() + "): matrix[" + i + "][" + j + "] NOT FREE");
 					return false;
 				}
 			}
+		
 		
 		return true;
 	}
@@ -91,10 +92,11 @@ public class Matrix {
 			}
 		}
 		
+		Matrix.numberObjects++;
 		return true;
 	}
 	
-	public static void remove(Car car) {
+	public static synchronized void remove(Car car) {
 		
 		int x = car.getX();
 		int y = car.getY(); 
@@ -111,8 +113,9 @@ public class Matrix {
 				idSingleObject[i][j] = -1;
 			}
 		}
-		System.out.println("Remove car");
-		printMatrix();
+		System.out.println("Matrix.remove(" + car.getType() + ") Remove car ");
+		Matrix.numberObjects--;
+		// printMatrix();
 	}
 	
 	public static boolean isWin() {
@@ -148,6 +151,9 @@ public class Matrix {
 			default:
 				break;
 		}
+		
+		//System.out.println("Matrix.getWidthObject(" + type + ") -> width: " + width);
+		
 		return width;
 	}
 	
@@ -173,6 +179,9 @@ public class Matrix {
 			default:
 				break;
 		}
+		
+		//System.out.println("Matrix.getHeightObject(" + type + ") -> height: " + height);
+		
 		return height;
 	}
 	
@@ -184,13 +193,13 @@ public class Matrix {
 	}
 	
     public static synchronized void printMatrix() {
-	   System.out.println("****************");
+	   System.out.println("------------------");
 	   for(int i = 0; i < rows; i++) {
-           for(int j = 0; j < cols; j++) {
-              System.out.print(idSingleObject[i][j] + " ");}
+           for(int j = 0; j < cols; j++) 
+              System.out.print(matrix[i][j] + " ");
            System.out.println();
 	   }
-	   System.out.println("****************");
+	   System.out.println("------------------");
    }
 
     // TODO: rimuovere anche gli oggetti dall'array di manager

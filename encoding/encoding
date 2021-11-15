@@ -1,0 +1,13 @@
+% soluzione 2, cercare di far muovere gli oggetti non di una cella per volta, ma farli spostare finché non trovano un altro oggetto o i bordi della matrice
+
+matrix(0..5, 0..5).
+
+
+car(0,0,2,1,"CarHorizontal",1). car(4,0,2,1,"CarHorizontal",2). 
+car(0,1,1,2,"CarVertical",3). car(0,3,1,3,"CamionVertical",4). 
+car(1,2,2,1,"Player",5). car(3,2,1,3,"CamionVertical",6). 
+car(3,5,2,1,"CarHorizontal",7). car(4,1,1,2,"CarVertical",8). 
+car(5,1,1,2,"CarVertical",9).
+
+% Guess
+move(X,Y,W,H,T,ID) | noMove(X,Y,W,H,T,ID) :- car(_,_,W,H,T,ID), matrix(X,Y).

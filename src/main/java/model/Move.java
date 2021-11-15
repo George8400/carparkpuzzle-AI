@@ -10,8 +10,8 @@ import it.unical.mat.embasp.languages.Id;
 import it.unical.mat.embasp.languages.Param;
 import manager.Manager;
 
-@Id("car")
-public class Car {
+@Id("move")
+public class Move {
 	
 	@Param(0)
 	private int x; // coordinate
@@ -34,22 +34,22 @@ public class Car {
 	Manager objectManager;
 	Color color;
 	
-	public Car() {}
+	public Move() {}
 
-	public Car(int x, int y, int width, int height, String type, int id) {
+	public Move(int x, int y, int width, int height, String type, int id) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.type = type;
-		this.id = id+1;
+		this.id = id + 1;
 		this.setColor(type);
 	}
 		
 	
 
 	
-	public void tick(ArrayList<Car> object) {
+	public void tick(ArrayList<Move> object) {
 		// TODO Auto-generated method stub
 
 	}
@@ -61,7 +61,7 @@ public class Car {
 	}
 	
 	@SuppressWarnings("unused")
-	private void Collision(ArrayList<Car> object) {
+	private void Collision(ArrayList<Move> object) {
 		for(int i = 0; i < Manager.object.size(); i++) {
 			
 		}
