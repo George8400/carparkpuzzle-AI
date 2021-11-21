@@ -82,7 +82,7 @@ public class Manager
 	public void clearLevel() {
 		object.clear(); 
 		// TODO: aggiungere ai.clearAll() per svuotare i fatti (il program)
-		createPlayer();
+		//createPlayer();
 	}
 
 	/*----------

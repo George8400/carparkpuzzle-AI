@@ -119,7 +119,20 @@ public class Matrix {
 	}
 	
 	public static boolean isWin() {
-		for(int i = 0; i < cols; i++) {
+		
+		int playerX = 0;
+		
+		for (int i = 0; i < Manager.object.size(); i++) {
+			if(Manager.object.get(i).getType() == "Player") {
+				playerX = Manager.object.get(i).getX(); 
+				System.out.println("MAtrix.isWin(): playerX " + playerX);
+			}
+		}
+		
+		if(playerX == 4)
+			return true;
+		
+		for(int i = playerX; i < cols; i++) {
 			if(typeBlockMatrix[2][i] != null && typeBlockMatrix[2][i] != "Player") {
 				System.out.println("Riprova, la strada è ancora occupata!");
 				return false;

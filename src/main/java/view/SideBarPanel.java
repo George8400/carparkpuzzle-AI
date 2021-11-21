@@ -16,10 +16,16 @@ public class SideBarPanel extends JPanel implements ActionListener{
 
 	public int WIDTH, HEIGHT;
 	
+	JButton l1;
+	JButton l2;
+	JButton l3;
+	JButton l4;
+	
 	JButton carHorizontal;
 	JButton carVertical;
 	JButton camionHorizontal;
 	JButton camionVertical;
+	JButton player;
 	
 	JButton clearLevel;
 	
@@ -49,19 +55,22 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		
 		int marginTop = 20;
 		int widthButton = 150;
-		int heightButton = 75;
+		int heightButton = 50;
 		
-		carHorizontal = new JButton("carHorizontal");
-		carVertical = new JButton("carVertical");
-		camionHorizontal = new JButton("camionHorizontal");
-		camionVertical = new JButton("camionVertical");
-		clearLevel = new JButton("clearLevel");
+		carHorizontal = new JButton("Car Horizontal");
+		carVertical = new JButton("Car Vertical");
+		camionHorizontal = new JButton("Camion Horizontal");
+		camionVertical = new JButton("Camion Vertical");
+		player = new JButton("Player");
+		clearLevel = new JButton("Clear Level");
 		exit = new JButton("Exit");
 		
 		carHorizontal.setBounds(WIDTH/2 - widthButton/2, HEIGHT/7 * 2, widthButton, heightButton);
 		carVertical.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 3 + marginTop, widthButton, heightButton);
 		camionHorizontal.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 4 + marginTop, widthButton, heightButton);
 		camionVertical.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 5 + marginTop, widthButton, heightButton);
+		player.setBounds(WIDTH/2 - widthButton/2, HEIGHT/7 + marginTop, widthButton, heightButton);
+		
 		clearLevel.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 6 + marginTop, widthButton, heightButton/2);
 		exit.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 7 + marginTop, widthButton, heightButton/2);
 		
@@ -69,6 +78,8 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		carVertical.addActionListener(this);
 		camionHorizontal.addActionListener(this);
 		camionVertical.addActionListener(this);
+		player.addActionListener(this);
+		
 		clearLevel.addActionListener(this);
 		exit.addActionListener(this);
 		
@@ -76,6 +87,8 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		this.add(carVertical);
 		this.add(camionHorizontal);
 		this.add(camionVertical);
+		this.add(player);
+		
 		this.add(clearLevel);
 		this.add(exit);
 	}
@@ -100,6 +113,11 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		if(camionVertical == (JButton) e.getSource()) {
 			System.out.println("Camion Vertical");
 			Manager.type = "CamionVertical";
+		}
+		
+		if(player == (JButton) e.getSource()) {
+			System.out.println("Player");
+			Manager.type = "Player";
 		}
 		
 		if(clearLevel == (JButton) e.getSource()) {

@@ -57,9 +57,11 @@ public class AI {
 		//handler.addProgram(program);
 		
 		
-		//OptionDescriptor option= new OptionDescriptor("--no-facts");
+		OptionDescriptor option= new OptionDescriptor("--no-facts");
+		OptionDescriptor option2= new OptionDescriptor("--printonlyoptimum");
 		
 		//handler.addOption(option);
+		handler.addOption(option2);
 		
 	
 		// aggiungere uno o pi� oggetti per formare il programma logico:
@@ -107,7 +109,7 @@ public class AI {
 		
 		generateFacts();
 		
-		program.addFilesPath("encoding/test");
+		program.addFilesPath("encoding/encoding");
 		handler.addProgram(program);
 		handler.addProgram(facts);
 		
@@ -157,7 +159,7 @@ public class AI {
 		
 		objectsUpdate.clear();
 		
-		next();
+		//next();
 	}
 	
 	
@@ -172,7 +174,7 @@ public class AI {
 		
 		
 		try {
-			Thread.sleep(100);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -198,7 +200,7 @@ public class AI {
 				Car tempCar = new Car(car.getX(), car.getY(), car.getWidth(), car.getHeight(), car.getType().substring(1, car.getType().length()-1), car.getId()-1);
 				System.out.println("AI.tickUpdateRenderObject(): new Car("+ tempCar.getX() + ", " + tempCar.getY() + ", " + tempCar.getWidth() + ", " + tempCar.getHeight() + ", " + tempCar.getType() + ", " + tempCar.getId() + ")");
 				try {
-					Thread.sleep(200);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

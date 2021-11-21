@@ -26,9 +26,9 @@ cell(X+1,Y,T,ID) :- car(X,Y,_,_,T,ID), T="CamionHorizontal".
 cell(X+2,Y,T,ID) :- car(X,Y,_,_,T,ID), T="CamionHorizontal".
 
 % CamionVertical
-cell(X,Y,T,ID) :- car(X,Y,_,_,T,ID), T="CamionHorizontal".
-cell(X,Y+1,T,ID) :- car(X,Y,_,_,T,ID), T="CamionHorizontal".
-cell(X,Y+2,T,ID) :- car(X,Y,_,_,T,ID), T="CamionHorizontal".
+cell(X,Y,T,ID) :- car(X,Y,_,_,T,ID), T="CamionVertical".
+cell(X,Y+1,T,ID) :- car(X,Y,_,_,T,ID), T="CamionVertical".
+cell(X,Y+2,T,ID) :- car(X,Y,_,_,T,ID), T="CamionVertical".
 
 
 
@@ -59,9 +59,9 @@ newCell(X+1,Y,T,ID) :- move(X,Y,_,_,T,ID), T="CamionHorizontal".
 newCell(X+2,Y,T,ID) :- move(X,Y,_,_,T,ID), T="CamionHorizontal".
 
 % CamionVertical
-newCell(X,Y,T,ID) :- move(X,Y,_,_,T,ID), T="CamionHorizontal".
-newCell(X,Y+1,T,ID) :- move(X,Y,_,_,T,ID), T="CamionHorizontal".
-newCell(X,Y+2,T,ID) :- move(X,Y,_,_,T,ID), T="CamionHorizontal".
+newCell(X,Y,T,ID) :- move(X,Y,_,_,T,ID), T="CamionVertical".
+newCell(X,Y+1,T,ID) :- move(X,Y,_,_,T,ID), T="CamionVertical".
+newCell(X,Y+2,T,ID) :- move(X,Y,_,_,T,ID), T="CamionVertical".
 
 
 % Check
@@ -132,9 +132,10 @@ newCell(X,Y+2,T,ID) :- move(X,Y,_,_,T,ID), T="CamionHorizontal".
 % non vorrei che la riga del player fosse occupata da altri veicoli (paghiamo per ogni cella occupata da altri veicoli)
 % :~ move(X,Y,W,H,T,ID), Y=2, T!="Player".[1@1]
 % :~ newCell(_,2,T,_), T!="Player".[1@1]
-:~ newCell(X,2,T,_), move(X1,_,_,_,"Player",_), T!="Player", X>X1+1.[X@1]
- :~ move(X,_,_,_,"Player",_), X=4.[1@1]
- :~ move(X,_,_,_,"Player",_), X=3.[2@1]
- :~ move(X,_,_,_,"Player",_), X=2.[3@1]
- :~ move(X,_,_,_,"Player",_), X=1.[4@1]
- :~ move(X,_,_,_,"Player",_), X=0.[5@1]
+ :~ newCell(X,2,T,_), move(X1,_,_,_,"Player",_), T!="Player", X>X1+1.[1@1]
+ :~ move(0,2,_,_,"Player",_).[4@1]
+ :~ move(1,2,_,_,"Player",_).[3@1]
+ :~ move(2,2,_,_,"Player",_).[2@1]
+ :~ move(3,2,_,_,"Player",_).[1@1]
+ :~ move(4,2,_,_,"Player",_).[0@1]
+ :~ move(X,2,_,_,"Player",_), X<4.[1@1]
