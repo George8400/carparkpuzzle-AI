@@ -120,17 +120,21 @@ public class Matrix {
 	
 	public static boolean isWin() {
 		
+		System.out.println("Matrix.isWin -------------------------------------------------------");
+		
 		int playerX = 0;
 		
-		for (int i = 0; i < Manager.object.size(); i++) {
-			if(Manager.object.get(i).getType() == "Player") {
-				playerX = Manager.object.get(i).getX(); 
-				System.out.println("MAtrix.isWin(): playerX " + playerX);
+		for (Car car : Manager.object) {
+			System.out.println(car.getType() + " " + car.getX());
+			if(car.getType().compareTo("Player") == 0) {
+				playerX = car.getX(); 
+				System.out.println("Matrix.isWin(): playerX " + playerX);
 			}
 		}
 		
-		if(playerX == 4)
+		if(playerX == 4) 
 			return true;
+		
 		
 		for(int i = playerX; i < cols; i++) {
 			if(typeBlockMatrix[2][i] != null && typeBlockMatrix[2][i] != "Player") {

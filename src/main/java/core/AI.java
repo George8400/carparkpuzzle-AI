@@ -1,6 +1,11 @@
 package core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+
+import javax.swing.JOptionPane;
 
 import it.unical.mat.embasp.base.Handler;
 import it.unical.mat.embasp.base.InputProgram;
@@ -30,10 +35,12 @@ public class AI {
 	InputProgram facts;
 	
 	ArrayList<Move> objectsUpdate;	// array temporaneo per l'aggiornamento del 'move' degli oggetti
+	ArrayList<Move> newObjectsUpdate;
 	
 	public AI() {
 		this.init();
 		objectsUpdate = new ArrayList<Move>();
+		newObjectsUpdate = new ArrayList<Move>();
 	}
 	
 	private void init() {
@@ -109,7 +116,7 @@ public class AI {
 		
 		generateFacts();
 		
-		program.addFilesPath("encoding/encoding");
+		program.addFilesPath("encoding/test");
 		handler.addProgram(program);
 		handler.addProgram(facts);
 		
@@ -153,13 +160,26 @@ public class AI {
 		
 		init();
 		
-		if(objectsUpdate.size() != 0)
+		// ordiniamo l'array di oggetti in base al time
+		if(objectsUpdate.size() != 0) {
+			
+			Collections.sort(objectsUpdate, new Comparator<Move>() {
+				public int compare(Move a, Move b) {
+					return a.getTime() - b.getTime();
+				}
+			});
+			
+			 for(Move m: objectsUpdate) {
+				System.out.println(m.getTime());
+			} 
 			tickUpdateRenderObject(objectsUpdate);
+		}
+		
 		
 		
 		objectsUpdate.clear();
 		
-		//next();
+		next();
 	}
 	
 	
@@ -169,18 +189,17 @@ public class AI {
 		
 		if(Matrix.isWin()) {
 			System.out.println("Vittoria! L'AI ha vinto la sfida");
+			JOptionPane.showMessageDialog(null, "Vittoria! L'AI ha vinto la sfida");
 			return;
 		}
 		
 		
 		try {
-			Thread.sleep(200);
+			Thread.sleep(50);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
 		
 		
 		playAI();
@@ -200,7 +219,7 @@ public class AI {
 				Car tempCar = new Car(car.getX(), car.getY(), car.getWidth(), car.getHeight(), car.getType().substring(1, car.getType().length()-1), car.getId()-1);
 				System.out.println("AI.tickUpdateRenderObject(): new Car("+ tempCar.getX() + ", " + tempCar.getY() + ", " + tempCar.getWidth() + ", " + tempCar.getHeight() + ", " + tempCar.getType() + ", " + tempCar.getId() + ")");
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(700);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -253,6 +272,13 @@ public class AI {
 
 }
 
+class TimeSorter implements Comparator<Move> 
+{
+    @Override
+    public int compare(Move first, Move second) {
+        return first.getTime() - second.getTime();
+    }
+}
 
 
 

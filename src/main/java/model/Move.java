@@ -5,13 +5,12 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import id.Type;
 import it.unical.mat.embasp.languages.Id;
 import it.unical.mat.embasp.languages.Param;
 import manager.Manager;
 
 @Id("move")
-public class Move {
+public class Move{
 	
 	@Param(0)
 	private int x; // coordinate
@@ -31,12 +30,16 @@ public class Move {
 	@Param(5)
 	private int id;
 	
+	@Param(6)
+	private int time;
+	
+
 	Manager objectManager;
 	Color color;
 	
 	public Move() {}
 
-	public Move(int x, int y, int width, int height, String type, int id) {
+	public Move(int x, int y, int width, int height, String type, int id, int time) {
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -153,6 +156,14 @@ public class Move {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
 
 	public Manager getObjectManager() {
 		return objectManager;
@@ -166,6 +177,10 @@ public class Move {
 		return color;
 	}
 
+
+
+
+	
 	
 
 	

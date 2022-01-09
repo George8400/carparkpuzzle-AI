@@ -57,6 +57,11 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		int widthButton = 150;
 		int heightButton = 50;
 		
+		l1 = new JButton("L1");
+		l2 = new JButton("L2");
+		l3 = new JButton("L3");
+		l4 = new JButton("L4");
+		
 		carHorizontal = new JButton("Car Horizontal");
 		carVertical = new JButton("Car Vertical");
 		camionHorizontal = new JButton("Camion Horizontal");
@@ -64,6 +69,11 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		player = new JButton("Player");
 		clearLevel = new JButton("Clear Level");
 		exit = new JButton("Exit");
+		
+		l1.setBounds(40, 40, 60, 40);
+		l2.setBounds(120, 40, 60, 40);
+		l3.setBounds(200, 40, 60, 40);
+		l4.setBounds(280, 40, 60, 40);
 		
 		carHorizontal.setBounds(WIDTH/2 - widthButton/2, HEIGHT/7 * 2, widthButton, heightButton);
 		carVertical.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 3 + marginTop, widthButton, heightButton);
@@ -74,6 +84,11 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		clearLevel.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 6 + marginTop, widthButton, heightButton/2);
 		exit.setBounds(WIDTH/2 - widthButton/2, HEIGHT/8 * 7 + marginTop, widthButton, heightButton/2);
 		
+		l1.addActionListener(this);
+		l2.addActionListener(this);
+		l3.addActionListener(this);
+		l4.addActionListener(this);
+		
 		carHorizontal.addActionListener(this);
 		carVertical.addActionListener(this);
 		camionHorizontal.addActionListener(this);
@@ -82,6 +97,11 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		
 		clearLevel.addActionListener(this);
 		exit.addActionListener(this);
+		
+		this.add(l1);
+		this.add(l2);
+		this.add(l3);
+		this.add(l4);
 		
 		this.add(carHorizontal);
 		this.add(carVertical);
@@ -128,6 +148,28 @@ public class SideBarPanel extends JPanel implements ActionListener{
 		if(exit == (JButton) e.getSource()) {
 			System.out.println("Exit");
 			System.exit(0);
+		}
+		
+		
+		
+		if(l1 == (JButton) e.getSource()) {
+			System.out.println("Create Level 1");
+			Manager.level1();
+		}
+		
+		if(l2 == (JButton) e.getSource()) {
+			System.out.println("Create Level 2");
+			Manager.level2();
+		}
+		
+		if(l3 == (JButton) e.getSource()) {
+			System.out.println("Create Level 3");
+			Manager.level3();
+		}
+		
+		if(l4 == (JButton) e.getSource()) {
+			System.out.println("Create Level 4");
+			Manager.level4();
 		}
 		
 	}

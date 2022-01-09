@@ -168,7 +168,10 @@ public class Manager
 		}
 	}
 	
-	public void level1() {
+	public static void level1() {
+			
+		Matrix.clearLevel();
+		
 		createObject(0, 0, "CarHorizontal");
 		createObject(400, 0, "CarHorizontal");
 		createObject(0, 100, "CarVertical");
@@ -178,6 +181,51 @@ public class Manager
 		createObject(300, 500, "CarHorizontal");
 		createObject(400, 100, "CarVertical");
 		createObject(500, 100, "CarVertical");
+	}
+	
+	public static void level2() {	
+		Matrix.clearLevel();
+		
+		createObject(0, 0, "CarHorizontal");
+		createObject(300, 0, "CamionVertical");
+		createObject(400, 0, "CarVertical");
+		createObject(100, 100, "CarHorizontal");
+		createObject(400, 100, "CarVertical");
+		createObject(0, 200, "Player");
+		createObject(200, 200, "CarVertical");
+		createObject(0, 400, "CarVertical");
+		createObject(100, 400, "CarVertical");
+		createObject(300, 400, "CarHorizontal");
+		createObject(200, 500, "CarHorizontal");
+	}
+	
+	public static void level3() {	
+		Matrix.clearLevel();
+		
+		createObject(200, 0, "CarHorizontal");
+		createObject(500, 0, "CamionVertical");
+		createObject(100, 200, "Player");
+		createObject(0, 400, "CarVertical");
+		createObject(200, 300, "CarVertical");
+		createObject(300, 300, "CamionVertical");
+		createObject(400, 300, "CarHorizontal");
+		createObject(400, 500, "CarHorizontal");
+	}
+	
+	public static void level4() {	
+		Matrix.clearLevel();
+		
+		createObject(300, 500, "CarHorizontal");
+		createObject(300, 100, "CarVertical");
+		createObject(400, 100, "CarVertical");
+		createObject(100, 300, "CarVertical");
+		createObject(200, 300, "CarVertical");
+		createObject(0, 100, "CamionVertical");
+		createObject(500, 0, "CamionVertical");
+		createObject(100, 200, "Player");		
+		createObject(200, 0, "CamionHorizontal");
+		createObject(300, 300, "CamionHorizontal");
+
 	}
 
 }

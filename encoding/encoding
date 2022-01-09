@@ -1,6 +1,13 @@
 
 matrix(0..5, 0..5).
 
+car(0,0,2,1,"CarHorizontal",1). car(4,0,2,1,"CarHorizontal",2). 
+car(0,1,1,2,"CarVertical",3). car(0,3,1,3,"CamionVertical",4). 
+car(1,2,2,1,"Player",5). car(3,2,1,3,"CamionVertical",6). 
+car(3,5,2,1,"CarHorizontal",7). car(4,1,1,2,"CarVertical",8). 
+car(5,1,1,2,"CarVertical",9).
+
+
 % costruiamo i fatti della matrice con le celle occupate dai relativi oggetti
 % Player
 cell(X,Y,T,ID) :- car(X,Y,_,_,T,ID), T="Player".
@@ -50,35 +57,36 @@ move(X,Y,W,H,T,ID) | noMove(X,Y,W,H,T,ID) :- car(X,_,W,H,T,ID), T="CamionVertica
 
 % non è possibile spostare il player se davanti ci sono celle occupate
 % fare la stessa cosa per tutti gli oggetti
-  :- move(X,2,W,H,"Player",ID), newCell(X1,2,T,_), T != "Player", X > X1.
-  :- move(X,2,W,H,"Player",ID), newCell(X1,2,T,_), T != "Player", X < X1.
-% :- move(X,_,W,H,"Player",ID),car(X1,_,_,_,"Player",ID), newCell(X2,_,T,_), X!=X1, T != "Player", X1 < X2, X2 < X.
+%  :- move(X,2,W,H,"Player",ID), newCell(X1,2,T,_), T != "Player", X > X1.
+%  :- move(X,2,W,H,"Player",ID), newCell(X1,2,T,_), T != "Player", X < X1.
+ :- move(X,2,W,H,"Player",ID),car(X1,2,_,_,"Player",ID), newCell(X2,2,T,ID1), X!=X1, T != "Player", X1 < X2, X2 < X.
+ :- move(X,2,W,H,"Player",ID),car(X1,2,_,_,"Player",ID), newCell(X2,2,T,ID1), X!=X1, T != "Player", X1 > X2, X2 > X.
+
 % non è possibile che tra la nuova cooordinata e la vecchia ci sia un oggetto in mezzo
 %  :- move(X,Y,W,H,"CarHorizontal",ID), newCell(X1,Y,T,_), T != "CarHorizontal", X > X1.
 %  :- move(X,Y,W,H,"CarHorizontal",ID), newCell(X1,Y,T,_), T != "CarHorizontal", X < X1.
- :- move(X,Y,W,H,"CarHorizontal",ID),car(X1,Y,_,_,"CarHorizontal",ID), newCell(X2,Y,T,_), X!=X1, T != "CarHorizontal", X1 < X2, X2 < X.
- :- move(X,Y,W,H,"CarHorizontal",ID),car(X1,Y,_,_,"CarHorizontal",ID), newCell(X2,Y,T,_), X!=X1, T != "CarHorizontal", X1 > X2, X2 > X.
+ :- move(X,Y,W,H,"CarHorizontal",ID),car(X1,Y,_,_,"CarHorizontal",ID), newCell(X2,Y,T,ID1), not tempCell(X2,Y,T,ID1), X!=X1, T != "CarHorizontal", X1 < X2, X2 < X.
+ :- move(X,Y,W,H,"CarHorizontal",ID),car(X1,Y,_,_,"CarHorizontal",ID), newCell(X2,Y,T,ID1), not tempCell(X2,Y,T,ID1), X!=X1, T != "CarHorizontal", X1 > X2, X2 > X.
 
 %  :- move(X,Y,W,H,"CarVertical",ID), newCell(X,Y1,T,_), T != "CarVertical", Y > Y1.
 %  :- move(X,Y,W,H,"CarVertical",ID), newCell(X,Y1,T,_), T != "CarVertical", Y < Y1.
- :- move(X,Y,W,H,"CarVertical",ID),car(X,Y1,_,_,"CarVertical",ID), newCell(X,Y2,T,_), Y!=Y1, T != "CarVertical", Y1 < Y2, Y2 < Y.
- :- move(X,Y,W,H,"CarVertical",ID),car(X,Y1,_,_,"CarVertical",ID), newCell(X,Y2,T,_), Y!=Y1, T != "CarVertical", Y1 > Y2, Y2 > Y.
+ :- move(X,Y,W,H,"CarVertical",ID),car(X,Y1,_,_,"CarVertical",ID), newCell(X,Y2,T,ID1), not tempCell(X,Y2,T,ID1), Y!=Y1, T != "CarVertical", Y1 < Y2, Y2 < Y.
+ :- move(X,Y,W,H,"CarVertical",ID),car(X,Y1,_,_,"CarVertical",ID), newCell(X,Y2,T,ID1), not tempCell(X,Y2,T,ID1), Y!=Y1, T != "CarVertical", Y1 > Y2, Y2 > Y.
 
 %  :- move(X,Y,W,H,"CamionHorizontal",ID), newCell(X1,Y,T,_), T != "CamionHorizontal", X > X1.
 %  :- move(X,Y,W,H,"CamionHorizontal",ID), newCell(X1,Y,T,_), T != "CamionHorizontal", X < X1.
- :- move(X,Y,W,H,"CamionHorizontal",ID),car(X1,Y,_,_,"CamionHorizontal",ID), newCell(X2,Y,T,_), X!=X1, T != "CamionHorizontal", X1 < X2, X2 < X.
- :- move(X,Y,W,H,"CamionHorizontal",ID),car(X1,Y,_,_,"CamionHorizontal",ID), newCell(X2,Y,T,_), X!=X1, T != "CamionHorizontal", X1 > X2, X2 > X.
+ :- move(X,Y,W,H,"CamionHorizontal",ID),car(X1,Y,_,_,"CamionHorizontal",ID), newCell(X2,Y,T,ID1), not tempCell(X2,Y,T,ID1), X!=X1, T != "CamionHorizontal", X1 < X2, X2 < X.
+ :- move(X,Y,W,H,"CamionHorizontal",ID),car(X1,Y,_,_,"CamionHorizontal",ID), newCell(X2,Y,T,ID1), not tempCell(X2,Y,T,ID1), X!=X1, T != "CamionHorizontal", X1 > X2, X2 > X.
 
 %  :- move(X,Y,W,H,"CamionVertical",ID), newCell(X,Y1,T,_), T != "CamionVertical", Y > Y1.
 %  :- move(X,Y,W,H,"CamionVertical",ID), newCell(X,Y1,T,_), T != "CamionVertical", Y < Y1.
- :- move(X,Y,W,H,"CamionVertical",ID),car(X,Y1,_,_,"CamionVertical",ID), newCell(X,Y2,T,_), Y!=Y1, T != "CamionVertical", Y1 < Y2, Y2 < Y.
- :- move(X,Y,W,H,"CarVertical",ID),car(X,Y1,_,_,"CamionVertical",ID), newCell(X,Y2,T,_), Y!=Y1, T != "CamionVertical", Y1 > Y2, Y2 > Y.
-
+ :- move(X,Y,W,H,"CamionVertical",ID),car(X,Y1,_,_,"CamionVertical",ID), newCell(X,Y2,T,ID1), not tempCell(X,Y2,T,ID1), Y!=Y1, T != "CamionVertical", Y1 < Y2, Y2 < Y.
+ :- move(X,Y,W,H,"CamionVertical",ID),car(X,Y1,_,_,"CamionVertical",ID), newCell(X,Y2,T,ID1), not tempCell(X,Y2,T,ID1), Y!=Y1, T != "CamionVertical", Y1 > Y2, Y2 > Y.
 
 
 
 % non è possibile spostare il player se davanti ci sono celle occupate
-:- move(X,2,W,H,"Player",ID), newCell(X1,2,T,_), T != "Player", X > X1.
+ :- move(X,2,W,H,"Player",ID), newCell(X1,2,T,_), T != "Player", X > X1.
 
 % limitiamo lo spostamento degli oggetti (non devono sforare la matrice)
 % Player
@@ -145,21 +153,21 @@ newCell(X,Y,T,ID) :- cell(X,Y,T,ID), not idMove(ID).
 
 
 % non è possibile che due car mosse occupino la stessa cella
-:- newCell(X,Y,T,ID), newCell(X,Y,T1,ID1), ID != ID1.
+:- newCell(X,Y,_,ID), newCell(X,Y,_,ID1), ID != ID1.
 
 
 % WEAK CONSTRAINT
 % non vorrei che la riga del player fosse occupata da altri veicoli (paghiamo per ogni cella occupata da altri veicoli)
 % :~ move(X,Y,W,H,T,ID), Y=2, T!="Player".[1@1]
 % :~ newCell(_,2,T,_), T!="Player".[1@1]
-% :~ newCell(X,2,T,_), move(X1,_,_,_,"Player",_), T!="Player", X>X1+1.[1@1, X]
+% :~ newCell(X,2,T,_), move(X1,2,_,_,"Player",_), T!="Player", X>X1+1.[1@1, X]
  :~ newCell(X,2,T,_), newCell(X1,2,"Player",_), T!="Player", X>X1+1.[1@1, X]
 % :~ move(0,2,_,_,"Player",_).[4@1]
 % :~ move(1,2,_,_,"Player",_).[3@1]
 % :~ move(2,2,_,_,"Player",_).[2@1]
 % :~ move(3,2,_,_,"Player",_).[1@1]
 % :~ move(4,2,_,_,"Player",_).[0@1]
-% :~ move(X,2,_,_,"Player",_), X<4.[1@1]
+ :~ move(X,2,_,_,"Player",_), X<4.[3@1]
 
 % :~ newCell(0,2,"Player",_), newCell(1,2,"Player",_).[4@1]
 % :~ newCell(1,2,"Player",_), newCell(2,2,"Player",_).[3@1]
